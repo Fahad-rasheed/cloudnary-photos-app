@@ -9,8 +9,9 @@ const Page = async () => {
     let res = await cloudinary.v2.search
         .expression('resource_type:image')
         .sort_by('public_id', 'desc')
-        .max_results(5)
+        // .max_results(5)
         .execute() as { resources: MyImage[] }
+        
 
     return (
         <>
@@ -20,10 +21,10 @@ const Page = async () => {
                 </h2>
                 <Upload />
             </div>
-            <div className="grid grid-cols-4 gap-4 p-3">
+            <div className="columns-4 gap-4 space-y-4  mx-auto p-5 ">
                 {res.resources.map((item, i) => {
                     return (
-                        <div key={i}>
+                        <div key={i} className="break-inside-avoid">
                             <View src={item.public_id} />
                         </div>
                     );
