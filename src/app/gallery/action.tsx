@@ -1,7 +1,19 @@
 "use server"
 import cloudinary from "cloudinary"
+import { revalidatePath } from "next/cache";
+import { resolve } from "path";
 
-export async function addTags(public_id:string){
-    await cloudinary.v2.uploader.add_tag("favourite",[public_id]); 
-    
+export async function AddTags(public_id: string, fav: boolean) {
+    if (fav) {
+        await cloudinary.v2.uploader.remove_tag("favourite", [public_id]);
+    }
+    else {
+        await cloudinary.v2.uploader.add_tag("favourite", [public_id]);
+
+    }
+    await new Promise((resolve) => {
+        setTimeout(resolve), 1000;
+    });
+    revalidatePath("./gallery")
+
 }

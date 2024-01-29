@@ -2,9 +2,13 @@
 import { CldImage } from "next-cloudinary";
 import { CiHeart } from "react-icons/ci";
 import { IoMdHeart } from "react-icons/io";
-import { addAbortListener, addAbortSignal } from "stream";
-import { addTags } from "./action";
-const View = ({ src }: { src: string }) => {
+import { useState } from "react";
+import { AddTags } from "./action";
+
+
+
+const View = ({ src, tag }: { src: string; tag: string[] }) => {
+  const [fav, setfav] = useState(tag.includes("favourite"));
   return (
 
 
@@ -17,14 +21,20 @@ const View = ({ src }: { src: string }) => {
         sizes="100vw"
         alt="Description of my image"
       />
+
       <div className="absolute top-1 right-1"
-        onClick= {() => {
-          addTags(src);
+        onClick={() => {
+          AddTags(src, fav);
         }}
-        >
+      >
+        {fav ? (
         <CiHeart className="w-8 h-8 cursor-pointer text-white
         hover:text-red-500 duration-300" />
+        ) : (
         <IoMdHeart className="w-8 h-8 cursor-pointer text-red-500 duration-500" />
+        )}
+
+
       </div>
     </div>
   )
